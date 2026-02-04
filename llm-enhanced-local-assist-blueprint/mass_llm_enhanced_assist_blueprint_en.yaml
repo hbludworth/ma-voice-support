@@ -556,8 +556,10 @@ actions:
       area_player {% elif iif(target.get(''area_id'')) %} only_area {% elif iif(target.get(''entity_id''))
       %} only_player {% else %} no_target {% endif %}'
     area_list: '{{ target.get(''area_id'', []) | map(''area_name'') | list }}'
-    area_info: '{{ area_list[:-1] | join('', '') ~ '' '' ~ combine ~ '' '' ~ area_list[-1]
-      if area_list | count > 2 else area_list | join('' '' ~ combine ~ '' '') }}'
+    area_info: '{% set areas_with_the = area_list | map(''regex_replace'', ''^'', ''the '') | list %}
+      {{ areas_with_the[:-1] | join('', '') ~ '' '' ~ combine ~ '' '' ~ areas_with_the[-1]
+          if areas_with_the | count > 2 else areas_with_the | join('' '' ~ combine ~ '' '')
+      }}'
     player_list: '{{ target.get(''entity_id'') | map(''state_attr'', ''friendly_name'')
       | list }}'
     player_info: '{% set players_with_the = player_list | map(''regex_replace'', ''^'', ''the '') | list %}
