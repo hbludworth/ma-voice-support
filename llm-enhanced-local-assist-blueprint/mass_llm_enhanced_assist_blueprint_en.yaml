@@ -484,9 +484,9 @@ actions:
       target: !input llm_prompt_target
       outro: !input llm_prompt_outro
     area_names: '{{ integration_entities(''music_assistant'')  | map(''area_name'')
-      | reject(''none'') | join('', '') }}'
+      | reject(''none'') | unique | join('', '') }}'
     player_names: '{{ integration_entities(''music_assistant'') | map(''state_attr'',
-      ''friendly_name'') | join('', '') }}'
+      ''friendly_name'') | unique | join('', '') }}'
 - alias: Send the request to the LLM
   action: conversation.process
   data:
