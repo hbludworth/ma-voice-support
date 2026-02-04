@@ -560,8 +560,9 @@ actions:
       if area_list | count > 2 else area_list | join('' '' ~ combine ~ '' '') }}'
     player_list: '{{ target.get(''entity_id'') | map(''state_attr'', ''friendly_name'')
       | list }}'
-    player_info: '{{ player_list[:-1] | join('', '') ~ '' '' ~ combine ~ '' '' ~ player_list[-1]
-      if player_list | count > 2 else player_list | join('' '' ~ combine ~ '' '')
+    player_info: '{% set players_with_the = player_list | map(''regex_replace'', ''^'', ''the '') | list %}
+      {{ players_with_the[:-1] | join('', '') ~ '' '' ~ combine ~ '' '' ~ players_with_the[-1]
+          if players_with_the | count > 2 else players_with_the | join('' '' ~ combine ~ '' '')
       }}'
     media_info: '{{ llm_result.media_description | default(llm_action_data.media_id,
       true) }}'
